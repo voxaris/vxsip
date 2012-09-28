@@ -1,0 +1,213 @@
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport;branch=z9hG4bKPjyERzgWE1OHM59JrLGQdDmXsonypclgSc
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=kPOJ5.zV7ThfKwA0ULS9JUBuhbTnBScf
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4687 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: "1000" <sip:1000@99.232.62.14:58630>
+Expires: 900
+Allow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS
+Content-Length: 0
+
+SIP/2.0 401 Unauthorized
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport=58630;branch=z9hG4bKPjyERzgWE1OHM59JrLGQdDmXsonypclgSc;received=192.168.0.11
+From: "1000" <sip:1000@192.168.0.13>;tag=kPOJ5.zV7ThfKwA0ULS9JUBuhbTnBScf
+To: "1000" <sip:1000@192.168.0.13>;tag=ZjcKg6pFQaK7B
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4687 REGISTER
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+WWW-Authenticate: Digest realm="192.168.0.13", nonce="2c85ea1c-5b72-11e1-9232-e3ab896dced9", algorithm=MD5, qop="auth"
+Content-Length: 0
+
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport;branch=z9hG4bKPjDg7ZneQjCIfXDoiIUe-SwVRDqkyPAPG7
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=kPOJ5.zV7ThfKwA0ULS9JUBuhbTnBScf
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4688 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: "1000" <sip:1000@99.232.62.14:58630>
+Expires: 900
+Allow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS
+Authorization: Digest username="1000", realm="192.168.0.13", nonce="2c85ea1c-5b72-11e1-9232-e3ab896dced9", uri="sip:192.168.0.13", response="bead87b75c1f66f2db67147c71b17ebe", algorithm=MD5, cnonce="ogPgY4RMpbAiP1XXcoPzDvKmy3WbIs.E", qop=auth, nc=00000001
+Content-Length: 0
+
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport=58630;branch=z9hG4bKPjDg7ZneQjCIfXDoiIUe-SwVRDqkyPAPG7;received=192.168.0.11
+From: "1000" <sip:1000@192.168.0.13>;tag=kPOJ5.zV7ThfKwA0ULS9JUBuhbTnBScf
+To: "1000" <sip:1000@192.168.0.13>;tag=0U5Bj17jmK9SQ
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4688 REGISTER
+Contact: <sip:1000@99.232.62.14:58630>;expires=900
+Date: Mon, 20 Feb 2012 03:22:49 GMT
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+Content-Length: 0
+
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport;branch=z9hG4bKPjk8cA.2FAIHWdmm.rfJG.aqDf5LKjTImE
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=NUxF5BMBVQQVBlK0aumYSQko9CCG64nJ
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4689 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: "1000" <sip:1000@99.232.62.14:58630>
+Expires: 0
+Content-Length: 0
+
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport;branch=z9hG4bKPj0uBwS48qWeQvGpR2ElbjqcAcSCCAVScU
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=kZtLXWa1WP.5OOxysXw78KB9D.cGrq8b
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: pWOBXO77JJiWslOMrYwYVWTUfdyvQb94
+CSeq: 17113 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: <sip:1000@192.168.0.11:58630;transport=UDP>
+Expires: 900
+Allow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS
+Content-Length: 0
+
+SIP/2.0 401 Unauthorized
+Via: SIP/2.0/UDP 99.232.62.14:58630;rport=58630;branch=z9hG4bKPjk8cA.2FAIHWdmm.rfJG.aqDf5LKjTImE;received=192.168.0.11
+From: "1000" <sip:1000@192.168.0.13>;tag=NUxF5BMBVQQVBlK0aumYSQko9CCG64nJ
+To: "1000" <sip:1000@192.168.0.13>;tag=14y4KvrpHvZcK
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4689 REGISTER
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+WWW-Authenticate: Digest realm="192.168.0.13", nonce="2c8dc9b2-5b72-11e1-9233-e3ab896dced9", algorithm=MD5, qop="auth"
+Content-Length: 0
+
+SIP/2.0 401 Unauthorized
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport=58630;branch=z9hG4bKPj0uBwS48qWeQvGpR2ElbjqcAcSCCAVScU
+From: "1000" <sip:1000@192.168.0.13>;tag=kZtLXWa1WP.5OOxysXw78KB9D.cGrq8b
+To: "1000" <sip:1000@192.168.0.13>;tag=2DrXNQ9Se5NZe
+Call-ID: pWOBXO77JJiWslOMrYwYVWTUfdyvQb94
+CSeq: 17113 REGISTER
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+WWW-Authenticate: Digest realm="192.168.0.13", nonce="2c8e00ee-5b72-11e1-9234-e3ab896dced9", algorithm=MD5, qop="auth"
+Content-Length: 0
+
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport;branch=z9hG4bKPjhX2jpNuEthKDRvL4SRURH0Ic.DWHIgJs
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=NUxF5BMBVQQVBlK0aumYSQko9CCG64nJ
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4690 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: "1000" <sip:1000@99.232.62.14:58630>
+Expires: 0
+Authorization: Digest username="1000", realm="192.168.0.13", nonce="2c8dc9b2-5b72-11e1-9233-e3ab896dced9", uri="sip:192.168.0.13", response="c9c3065200331548c4fbe930ae242443", algorithm=MD5, cnonce="ogPgY4RMpbAiP1XXcoPzDvKmy3WbIs.E", qop=auth, nc=00000001
+Content-Length: 0
+
+REGISTER sip:192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport;branch=z9hG4bKPj53F3RKwJgCZRLxJnmS-.kQrrI.z1m6d8
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=kZtLXWa1WP.5OOxysXw78KB9D.cGrq8b
+To: "1000" <sip:1000@192.168.0.13>
+Call-ID: pWOBXO77JJiWslOMrYwYVWTUfdyvQb94
+CSeq: 17114 REGISTER
+User-Agent: Bria iOS 2.0.0
+Contact: <sip:1000@192.168.0.11:58630;transport=UDP>
+Expires: 900
+Allow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS
+Authorization: Digest username="1000", realm="192.168.0.13", nonce="2c8e00ee-5b72-11e1-9234-e3ab896dced9", uri="sip:192.168.0.13", response="d0ef090dadcb59ecbafb7169ec67d561", algorithm=MD5, cnonce="NTveYyL4JWd55ECtJnsxtPhO0wr1yn7W", qop=auth, nc=00000001
+Content-Length: 0
+
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport=58630;branch=z9hG4bKPjhX2jpNuEthKDRvL4SRURH0Ic.DWHIgJs
+From: "1000" <sip:1000@192.168.0.13>;tag=NUxF5BMBVQQVBlK0aumYSQko9CCG64nJ
+To: "1000" <sip:1000@192.168.0.13>;tag=3pHpQjtXBecja
+Call-ID: I9OjsROtwEYd1DcLsvxuyuZNec7mUnLT
+CSeq: 4690 REGISTER
+Date: Mon, 20 Feb 2012 03:22:49 GMT
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+Content-Length: 0
+
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport=58630;branch=z9hG4bKPj53F3RKwJgCZRLxJnmS-.kQrrI.z1m6d8
+From: "1000" <sip:1000@192.168.0.13>;tag=kZtLXWa1WP.5OOxysXw78KB9D.cGrq8b
+To: "1000" <sip:1000@192.168.0.13>;tag=4ZaFSDB18p24N
+Call-ID: pWOBXO77JJiWslOMrYwYVWTUfdyvQb94
+CSeq: 17114 REGISTER
+Contact: <sip:1000@192.168.0.11:58630;transport=UDP>;expires=900
+Date: Mon, 20 Feb 2012 03:22:49 GMT
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+Content-Length: 0
+
+SUBSCRIBE sip:1000@192.168.0.13 SIP/2.0
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport;branch=z9hG4bKPj7TB.jRknRSs6paz.YUCpaYgLvPcWAIGl
+Max-Forwards: 70
+From: "1000" <sip:1000@192.168.0.13>;tag=UyBLIYOpWDWrS5dkO-VRGqGlxHZn.Y7u
+To: "1000" <sip:1000@192.168.0.13>
+Contact: <sip:1000@192.168.0.11:58630;transport=UDP>
+Call-ID: aU4Z7POzLk1ztOaYhut8DQo26AFQMwqZ
+CSeq: 26754 SUBSCRIBE
+Event: message-summary
+Expires: 3600
+Supported: replaces, 100rel, timer, norefersub
+Accept: application/simple-message-summary
+Allow-Events: presence, message-summary, refer
+User-Agent: Bria iOS 2.0.0
+Content-Length: 0
+
+SIP/2.0 202 Accepted
+Via: SIP/2.0/UDP 192.168.0.11:58630;rport=58630;branch=z9hG4bKPj7TB.jRknRSs6paz.YUCpaYgLvPcWAIGl
+From: "1000" <sip:1000@192.168.0.13>;tag=UyBLIYOpWDWrS5dkO-VRGqGlxHZn.Y7u
+To: "1000" <sip:1000@192.168.0.13>;tag=coK3uI0k2t7k
+Call-ID: aU4Z7POzLk1ztOaYhut8DQo26AFQMwqZ
+CSeq: 26754 SUBSCRIBE
+Contact: <sip:1000@192.168.0.13:5060>
+Expires: 3600
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+Allow-Events: talk, hold, presence, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer
+Subscription-State: active;expires=3600
+Content-Length: 0
+
+NOTIFY sip:1000@192.168.0.11:58630;transport=UDP SIP/2.0
+Via: SIP/2.0/UDP 192.168.0.13;rport;branch=z9hG4bKFmQFUrgav07QB
+Max-Forwards: 70
+From: <sip:1000@192.168.0.13>;tag=6HX0v3c828eaD
+To: <sip:1000@192.168.0.13>
+Call-ID: 03f13e05-d615-122f-3db0-0022153ee509
+CSeq: 24518022 NOTIFY
+Contact: <sip:mod_sofia@192.168.0.13:5060>
+User-Agent: FreeSWITCH-mod_sofia/1.0.head-git-eeeaf41 2012-02-10 17-27-50 -0600
+Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, MESSAGE, UPDATE, INFO, REGISTER, REFER, NOTIFY, PUBLISH, SUBSCRIBE
+Supported: timer, precondition, path, replaces
+Event: message-summary
+Allow-Events: talk, hold, presence, dialog, line-seize, call-info, sla, include-session-description, presence.winfo, message-summary, refer
+Subscription-State: terminated;reason=noresource
+Content-Type: application/simple-message-summary
+Content-Length: 91
+
+Messages-Waiting: yes
+Message-Account: sip:1000@192.168.0.13
+Voice-Message: 1/0 (0/0)
+
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.0.13;rport=5060;received=192.168.0.13;branch=z9hG4bKFmQFUrgav07QB
+Call-ID: 03f13e05-d615-122f-3db0-0022153ee509
+From: <sip:1000@192.168.0.13>;tag=6HX0v3c828eaD
+To: <sip:1000@192.168.0.13>;tag=z9hG4bKFmQFUrgav07QB
+CSeq: 24518022 NOTIFY
+Content-Length: 0
+

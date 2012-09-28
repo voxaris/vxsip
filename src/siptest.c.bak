@@ -1,0 +1,369 @@
+#include <sip.h>
+
+typedef struct my_conn_obj
+{
+   void *my_conn_resv;          /* for lib use */
+   int my_conn_fd;
+   struct sockaddr *my_conn_local;
+   struct sockaddr *my_conn_remote;
+   int my_conn_transport;
+   int my_conn_refcnt;
+   int my_conn_af;
+   pthread_mutex_t my_conn_lock;
+   uint32_t my_conn_flags;
+   int my_conn_thr;
+   int my_conn_timer1;
+   int my_conn_timer2;
+   int my_conn_timer4;
+   int my_conn_timerD;
+} my_conn_obj_t;
+
+
+int my_conn_transport (sip_conn_object_t obj)
+{
+   my_conn_obj_t *conn_obj;
+   int transport;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   transport = conn_obj->my_conn_transport;
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+
+   return (transport);
+}
+
+boolean_t my_conn_isreliable (sip_conn_object_t obj)
+{
+   my_conn_obj_t *conn_obj;
+   int transport;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   transport = conn_obj->my_conn_transport;
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+
+   return (!(transport == IPPROTO_UDP));
+}
+
+boolean_t my_conn_isstream (sip_conn_object_t obj)
+{
+   my_conn_obj_t *conn_obj;
+   int transport;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   transport = conn_obj->my_conn_transport;
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+
+   return (transport == IPPROTO_TCP);
+}
+
+void my_conn_refhold (sip_conn_object_t obj)
+{
+   my_conn_obj_t *conn_obj;
+
+   conn_obj = (my_conn_obj_t *) obj;
+
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   conn_obj->my_conn_refcnt++;
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+}
+
+void my_conn_refrele (sip_conn_object_t obj)
+{
+   my_conn_obj_t *conn_obj;
+
+   conn_obj = (my_conn_obj_t *) obj;
+
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   if (conn_obj->my_conn_refcnt <= 0)
+   {
+      printf ("my_conn_refrele: going to break!!\n");
+   }
+   assert (conn_obj->my_conn_refcnt > 0);
+   conn_obj->my_conn_refcnt--;
+   if (conn_obj->my_conn_refcnt > 0)
+   {
+      (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+      return;
+   }
+//   assert (conn_obj->my_conn_flags & MY_CONN_DESTROYED);
+   (void) pthread_mutex_destroy (&conn_obj->my_conn_lock);
+   if (conn_obj->my_conn_local != NULL)
+      free (conn_obj->my_conn_local);
+   if (conn_obj->my_conn_remote != NULL)
+      free (conn_obj->my_conn_remote);
+   free (conn_obj);
+}
+
+int my_conn_local (sip_conn_object_t obj, struct sockaddr *sa, socklen_t * len)
+{
+   my_conn_obj_t *conn_obj;
+   int alen;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   if (conn_obj->my_conn_local == NULL)
+   {
+      (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+      return (-1);
+   }
+   if (conn_obj->my_conn_local->sa_family == AF_INET)
+      alen = sizeof (struct sockaddr_in);
+   else
+      alen = sizeof (struct sockaddr_in6);
+
+   if (*len < alen)
+   {
+      (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+      return (EINVAL);
+   }
+   bcopy (conn_obj->my_conn_local, sa, alen);
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+   *len = alen;
+   return (0);
+}
+
+int my_conn_remote (sip_conn_object_t obj, struct sockaddr *sa, socklen_t * len)
+{
+   my_conn_obj_t *conn_obj;
+   int alen;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   (void) pthread_mutex_lock (&conn_obj->my_conn_lock);
+   if (conn_obj->my_conn_remote == NULL)
+   {
+      (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+      return (-1);
+   }
+   if (conn_obj->my_conn_remote->sa_family == AF_INET)
+      alen = sizeof (struct sockaddr_in);
+   else
+      alen = sizeof (struct sockaddr_in6);
+
+   if (*len < alen)
+   {
+      (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+      return (EINVAL);
+   }
+   bcopy (conn_obj->my_conn_remote, sa, alen);
+   (void) pthread_mutex_unlock (&conn_obj->my_conn_lock);
+   *len = alen;
+
+   return (0);
+}
+
+int my_conn_send (const sip_conn_object_t obj, char *msg, int msglen)
+{
+   my_conn_obj_t *conn_obj;
+   size_t nleft;
+   int nwritten;
+   const char *ptr;
+   socklen_t tolen;
+
+   conn_obj = (my_conn_obj_t *) obj;
+   //if (conn_obj->my_conn_fd == NULL)
+   if (conn_obj->my_conn_fd == 0)
+      return (EINVAL);
+
+   ptr = msg;
+   nleft = msglen;
+
+   if (conn_obj->my_conn_remote->sa_family == AF_INET)
+      tolen = sizeof (struct sockaddr_in);
+   else
+      tolen = sizeof (struct sockaddr_in6);
+
+   while (nleft > 0)
+   {
+      if (conn_obj->my_conn_transport == IPPROTO_UDP)
+      {
+         if ((nwritten = sendto (conn_obj->my_conn_fd, ptr, nleft, 0, conn_obj->my_conn_remote, tolen)) <= 0)
+         {
+            return (-1);
+         }
+      }
+      else
+      {
+         if ((nwritten = write (conn_obj->my_conn_fd, ptr, nleft)) <= 0)
+         {
+            return (-1);
+         }
+      }
+      nleft -= nwritten;
+      ptr += nwritten;
+   }
+   return (0);
+}
+
+void ulp_dialog_state_cb (sip_dialog_t dialog, sip_msg_t sip_msg, int pstate, int nstate)
+{
+   printf ("\t\t\t%p %d ==> %d\n", dialog, pstate, nstate);
+}
+
+void ulp_trans_state_cb (sip_transaction_t sip_trans, sip_msg_t sip_msg, int pstate, int ostate)
+{
+   char *bid;
+   sip_method_t method;
+   int err;
+
+   /* Not checking for err in the following functions */
+   if (sip_msg != NULL)
+   {
+      if (sip_msg_is_request (sip_msg, &err))
+      {
+         method = sip_get_request_method (sip_msg, &err);
+      }
+      else
+      {
+         //method = sip_get_callseq_method (sip_msg, NULL, &err);
+         method = sip_get_callseq_method (sip_msg, &err);
+      }
+   }
+   bid = sip_get_trans_branchid (sip_trans, &err);
+   printf ("\tTransaction (%d) %s\n\t\t\t%d ==> %d\n",
+           sip_msg == NULL ? 0 : method, bid, pstate, ostate);
+   free (bid);
+}
+
+void my_ulp_recv (sip_conn_object_t obj, sip_msg_t msg, sip_dialog_t sip_dialog)
+{
+   sip_msg_t sip_msg_resp;
+   int resp_code;
+   int error;
+   sip_method_t method;
+   char *totag;
+
+   /* Drop if not a request */
+   if (!sip_msg_is_request (msg, &error))
+      return;
+
+   method = sip_get_request_method (msg, &error);
+   if (error != 0)
+      return;                   /* error getting request method);
+                                   if (method == ACK) {
+                                   printf("ACK received\n");
+                                   return;
+                                   }
+
+                                   if (method != INVITE) {
+                                   printf("not processing %d request\n", method);
+                                   return;
+                                   }*/
+
+                                   /* Create an OK  response */
+   printf ("%d\n", method);
+   resp_code = SIP_OK;
+
+   /* This will probably not be  done for each incoming request */
+   totag = sip_guid ();
+   if (totag == NULL)
+   {
+      printf ("error generating TO tag\n");
+      return;
+   }
+   sip_msg_resp = sip_create_response (msg, resp_code,
+                                       sip_get_resp_desc (resp_code), totag, "sip:mycontactinfo@123.1.1.4");
+   if (sip_msg_resp == NULL)
+   {
+      printf ("error creating response\n");
+      return;
+   }
+
+   /* send message statefully */
+   sip_sendmsg (obj, sip_msg_resp, sip_dialog, SIP_SEND_STATEFUL);
+
+   /* free message */
+   sip_free_msg (sip_msg_resp);
+
+   /* free totag */
+   free (totag);
+}
+
+    /*
+     * Main program:
+     * Stack initialization:
+     *        Stack maintains dialogs.
+     *        Dialog and transaction state transition callbacks
+     *        registerd.
+     */
+int main (int argc, char **argv)
+{
+   sip_stack_init_t sip_init[1];
+   sip_io_pointers_t sip_io[1];
+   sip_ulp_pointers_t sip_ulp;
+
+   bzero (sip_init, sizeof (sip_stack_init_t));
+   bzero (sip_io, sizeof (sip_io_pointers_t));
+
+   sip_io->sip_conn_send = my_conn_send;
+   sip_io->sip_hold_conn_object = my_conn_refhold;
+   sip_io->sip_rel_conn_object = my_conn_refrele;
+   sip_io->sip_conn_is_stream = my_conn_isstream;
+   sip_io->sip_conn_is_reliable = my_conn_isreliable;
+   sip_io->sip_conn_remote_address = my_conn_remote;
+   sip_io->sip_conn_local_address = my_conn_local;
+   sip_io->sip_conn_transport = my_conn_transport;
+
+   sip_init->sip_version = SIP_STACK_VERSION;
+   sip_init->sip_io_pointers = sip_io;
+   bzero (&sip_ulp, sizeof (sip_ulp_pointers_t));
+   sip_ulp.sip_ulp_recv = my_ulp_recv;
+   sip_init->sip_stack_flags |= SIP_STACK_DIALOGS;
+   sip_ulp.sip_ulp_dlg_state_cb = my_dialog_cb;
+   sip_ulp.sip_ulp_trans_state_cb = ulp_trans_state_cb;
+   sip_init->sip_ulp_pointers = &sip_ulp;
+
+   /* Open a socket and accept a connection */
+   sock = socket (af, SOCK_STREAM, IPPROTO_TCP);
+   /* Check for socket creation error */
+
+   /* onoff is set to 1 */
+   setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, &onoff, sizeof (onoff));
+   /* check for setsockopt() error */
+
+   /* fill in bind information in sockaddr_in struct sa */
+   bind (sock, sa, slen);
+   /* check for bind error */
+
+   listen (sock, 5);
+
+   accept_fd = accept (sock, NULL, NULL);
+   /* check for accept error */
+
+   /*
+    * create a connection object, nobj is of type my_conn_obj_t
+    */
+   nobj = malloc (sizeof (my_conn_obj_t));
+   /* check for memory failure */
+
+   nobj->my_conn_fd = accept_fd;
+   nobj->my_conn_transport = IPPROTO_TCP;
+   nobj->my_conn_refcnt = 1;
+
+   /* set address family in nobj->my_conn_af */
+
+   /* Initialize lock */
+   (void) pthread_mutex_init (&nobj->my_conn_lock, NULL);
+
+   /* Set local and remote addresses in nobj */
+
+   /* INITIALIZE connection object */
+   sip_init_conn_object ((sip_conn_object_t) nobj);
+
+   /* Termination not shown */
+   for (;;)
+   {
+      /*
+       * Read incoming message on the connection object
+       * my_conn_receive(), not shown, is an application function that
+       * reads on nobj->my_conn_fd into buf, nread is the length of
+       * the message read.
+       */
+      nread = my_conn_receive (cobj, buf, MY_BUFLEN);
+      /* check for any error */
+
+      /* Call into the SIP stack for processing this message */
+      sip_process_new_packet ((sip_conn_object_t) cobj, buf, nread);
+   }
+}
